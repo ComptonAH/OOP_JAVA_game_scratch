@@ -13,5 +13,7 @@ public class Main {
         System.out.println(peasant);
         Spearman spearman = new Spearman();
         System.out.println(spearman);
+        Rogue rogue = new Rogue();
+        System.out.println(rogue);
     }
 }

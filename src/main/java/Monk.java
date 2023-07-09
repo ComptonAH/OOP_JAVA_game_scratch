@@ -1,7 +1,9 @@
-public class Monk extends Magic {
+public class Monk extends Unit {
     private final int d6 = magic_stat_roll();
+    protected int mana_points, spell_quantity, ability_points;
 
     public Monk() {
+        this.name = name;
         this.attack_range = 7;
         this.movement_points = 8;
         this.health_points = roll_d6() + 8;
@@ -30,7 +32,16 @@ public class Monk extends Magic {
                 '}';
     }
 
-    private int roll_d6(){
+    private int roll_d6() {
         return d6;
+    }
+
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Monk";
     }
 }

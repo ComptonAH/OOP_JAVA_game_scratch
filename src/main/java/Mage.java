@@ -1,7 +1,9 @@
-public class Mage extends Magic {
+public class Mage extends Unit {
     private final int d6 = magic_stat_roll();
+    protected int mana_points, spell_quantity, ability_points;
 
     public Mage() {
+        this.name = name;
         this.attack_range = 8;
         this.movement_points = 10;
         this.health_points = roll_d6() + 6;
@@ -33,5 +35,14 @@ public class Mage extends Magic {
 
     private int roll_d6() {
         return d6;
+    }
+
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Mage";
     }
 }

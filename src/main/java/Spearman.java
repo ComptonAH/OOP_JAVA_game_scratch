@@ -1,6 +1,9 @@
-public class Spearman extends MeleeClass {
+public class Spearman extends Unit {
     private final int d10 = melee_stat_roll();
+    protected int armor, resistance;
+
     public Spearman() {
+        this.name = name;
         this.movement_points = 12;
         this.health_points = roll_d10() + 8;
         this.defence = roll_d10() + 2;
@@ -9,10 +12,7 @@ public class Spearman extends MeleeClass {
         this.attack = roll_d10() + 5;
         this.armor = roll_d10() + 2;
         this.resistance = roll_d10();
-    }
-
-    private int roll_d10() {
-        return d10;
+        this.attack_range = 2;
     }
 
     @Override
@@ -27,5 +27,17 @@ public class Spearman extends MeleeClass {
                 ", initiation=" + initiation +
                 ", luck=" + luck +
                 '}';
+    }
+
+    private int roll_d10() {
+        return d10;
+    }
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Spearman";
     }
 }

@@ -1,7 +1,9 @@
-public class Crossbowman extends Archer {
+public class Crossbowman extends Unit {
     private final int d8 = archer_stat_roll();
+    protected int projectile_quantity;
 
     public Crossbowman() {
+        this.name = name;
         this.attack_range = 12;
         this.movement_points = 8;
         this.health_points = roll_d8() + 6;
@@ -28,5 +30,13 @@ public class Crossbowman extends Archer {
 
     private int roll_d8() {
         return d8;
+    }
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Crossbowman";
     }
 }

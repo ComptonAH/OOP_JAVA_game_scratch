@@ -1,8 +1,10 @@
-public class Sniper extends Archer {
+public class Sniper extends Unit {
 
     private final int d8 = archer_stat_roll();
+    protected int projectile_quantity;
 
     public Sniper() {
+        this.name = name;
         this.attack_range = 9;
         this.movement_points = 10;
         this.health_points = roll_d8() + 4;
@@ -12,7 +14,6 @@ public class Sniper extends Archer {
         this.projectile_quantity = 5;
         this.attack = roll_d8();
     }
-
 
     @Override
     public String toString() {
@@ -30,5 +31,13 @@ public class Sniper extends Archer {
 
     private int roll_d8() {
         return d8;
+    }
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Sniper";
     }
 }

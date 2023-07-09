@@ -1,8 +1,9 @@
-public class Peasant extends MeleeClass {
+public class Peasant extends Unit {
     private final int d10 = melee_stat_roll();
-
+    protected int armor, resistance;
 
     public Peasant() {
+        this.name = name;
         this.movement_points = 9;
         this.health_points = roll_d10() + 5;
         this.defence = roll_d10();
@@ -11,6 +12,7 @@ public class Peasant extends MeleeClass {
         this.attack = roll_d10() + 2;
         this.armor = roll_d10();
         this.resistance = roll_d10();
+        this.attack_range = 1;
     }
 
     private int roll_d10() {
@@ -29,5 +31,13 @@ public class Peasant extends MeleeClass {
                 ", initiation=" + initiation +
                 ", luck=" + luck +
                 '}';
+    }
+    @Override
+    public void step() {
+
+    }
+
+    public String getInfo(){
+        return "Peasant";
     }
 }

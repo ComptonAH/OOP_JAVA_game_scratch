@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Spearman extends Unit {
     private final int d10 = melee_stat_roll();
     protected int armor, resistance;
 
-    public Spearman() {
+    public Spearman(String name, int x, int y) {
         this.name = name;
         this.movement_points = 12;
         this.health_points = roll_d10() + 8;
@@ -13,6 +15,7 @@ public class Spearman extends Unit {
         this.armor = roll_d10() + 2;
         this.resistance = roll_d10();
         this.attack_range = 2;
+        coordinates = new Coordinates(x,y);
     }
 
     @Override
@@ -33,8 +36,8 @@ public class Spearman extends Unit {
         return d10;
     }
     @Override
-    public void step() {
-
+    public void step(ArrayList<Unit> units) {
+        System.out.println(distanceToNearestEnemy(units));
     }
 
     public String getInfo(){

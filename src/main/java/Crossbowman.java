@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Crossbowman extends Unit {
     private final int d8 = archer_stat_roll();
     protected int projectile_quantity;
 
-    public Crossbowman() {
+    public Crossbowman(String name, int x, int y) {
         this.name = name;
         this.attack_range = 12;
         this.movement_points = 8;
@@ -12,6 +14,7 @@ public class Crossbowman extends Unit {
         this.initiation = roll_d8() + 4;
         this.projectile_quantity = 5;
         this.attack = roll_d8() + 2;
+        coordinates = new Coordinates(x,y);
     }
 
     @Override
@@ -32,10 +35,9 @@ public class Crossbowman extends Unit {
         return d8;
     }
     @Override
-    public void step() {
-
+    public void step(ArrayList<Unit> units) {
+        System.out.println(distanceToNearestEnemy(units));
     }
-
     public String getInfo(){
         return "Crossbowman";
     }

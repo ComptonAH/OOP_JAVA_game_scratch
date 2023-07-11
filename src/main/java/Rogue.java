@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Rogue extends Unit {
     protected int armor, resistance;
     private final int d10 = melee_stat_roll();
-    public Rogue() {
+    public Rogue(String name, int x, int y) {
         this.name = name;
         this.movement_points = 16;
         this.health_points = roll_d10() + 3;
@@ -12,6 +14,7 @@ public class Rogue extends Unit {
         this.armor = roll_d10() + 1;
         this.resistance = roll_d10() + 2;
         this.attack_range = 1;
+        coordinates = new Coordinates(x,y);
     }
 
     private int roll_d10() {
@@ -33,8 +36,8 @@ public class Rogue extends Unit {
     }
 
     @Override
-    public void step() {
-
+    public void step(ArrayList<Unit> units) {
+        System.out.println(distanceToNearestEnemy(units));
     }
 
     @Override

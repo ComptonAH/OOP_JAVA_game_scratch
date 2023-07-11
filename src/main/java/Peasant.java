@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Peasant extends Unit {
     private final int d10 = melee_stat_roll();
     protected int armor, resistance;
 
-    public Peasant() {
+    public Peasant(String name, int x, int y) {
         this.name = name;
         this.movement_points = 9;
         this.health_points = roll_d10() + 5;
@@ -13,6 +15,7 @@ public class Peasant extends Unit {
         this.armor = roll_d10();
         this.resistance = roll_d10();
         this.attack_range = 1;
+        coordinates = new Coordinates(x,y);
     }
 
     private int roll_d10() {
@@ -33,8 +36,8 @@ public class Peasant extends Unit {
                 '}';
     }
     @Override
-    public void step() {
-
+    public void step(ArrayList<Unit> units) {
+        System.out.println(distanceToNearestEnemy(units));
     }
 
     public String getInfo(){

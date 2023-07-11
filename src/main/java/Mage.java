@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Mage extends Unit {
     private final int d6 = magic_stat_roll();
     protected int mana_points, spell_quantity, ability_points;
 
-    public Mage() {
+    public Mage(String name, int x, int y) {
         this.name = name;
         this.attack_range = 8;
         this.movement_points = 10;
@@ -14,6 +16,7 @@ public class Mage extends Unit {
         this.ability_points = roll_d6() + 4;
         this.mana_points = roll_d6() + 8;
         this.spell_quantity = 5;
+        coordinates = new Coordinates(x,y);
     }
 
 
@@ -38,8 +41,8 @@ public class Mage extends Unit {
     }
 
     @Override
-    public void step() {
-
+    public void step(ArrayList<Unit> units) {
+        System.out.println(distanceToNearestEnemy(units));
     }
 
     public String getInfo(){

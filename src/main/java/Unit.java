@@ -2,7 +2,7 @@ import java.util.*;
 
 public abstract class Unit implements InGameInterface {
     protected int movement_points, attack, defence, initiation, luck, attack_range;
-    protected int health_points;
+    protected int max_hp, cur_hp;
     protected String name;
     Coordinates coordinates;
 
@@ -42,11 +42,10 @@ public abstract class Unit implements InGameInterface {
 //        return dist_list.get(min_dist) + " " + min_dist;
 //    }
 
-    public String distanceToNearestEnemy(ArrayList<Unit> enemyTeam) {
+    public Unit distanceToNearestEnemy(ArrayList<Unit> enemyTeam) {
         Double min_dist = null;
-        Map<Double, String> dist_list = new TreeMap<>();
+        Map<Double, Unit> dist_list = new TreeMap<>();
         for (int i = 0; i < enemyTeam.size(); i++) {
-            String enemyName = enemyTeam.get(i).name;
             Double dist = Math.sqrt(Math.pow(Math.subtractExact(this.coordinates.X, enemyTeam.get(i).coordinates.X), 2) +
                     Math.pow(Math.subtractExact(this.coordinates.Y, enemyTeam.get(i).coordinates.Y), 2));
             if (i == 0) {
@@ -54,9 +53,9 @@ public abstract class Unit implements InGameInterface {
             } else if (dist < min_dist) {
                 min_dist = dist;
             }
-            dist_list.put(dist, enemyName);
+            dist_list.put(dist, enemyTeam.get(i));
         }
-        return dist_list.get(min_dist) + " " + min_dist;
+        return dist_list.get(min_dist);
     }
 }
 

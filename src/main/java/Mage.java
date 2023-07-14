@@ -8,7 +8,8 @@ public class Mage extends Unit {
         this.name = name;
         this.attack_range = 8;
         this.movement_points = 10;
-        this.health_points = roll_d6() + 6;
+        this.max_hp = roll_d6() + 6;
+        this.cur_hp = max_hp;
         this.defence = roll_d6();
         this.luck = 1;
         this.initiation = roll_d6() + 3;
@@ -27,7 +28,7 @@ public class Mage extends Unit {
                 ", spell_quantity=" + spell_quantity +
                 ", ability_points=" + ability_points +
                 ", attack_range=" + attack_range +
-                ", health_points=" + health_points +
+                ", health_points=" + max_hp +
                 ", movement_points=" + movement_points +
                 ", attack=" + attack +
                 ", defence=" + defence +
@@ -41,8 +42,8 @@ public class Mage extends Unit {
     }
 
     @Override
-    public void step(ArrayList<Unit> units) {
-        System.out.println(distanceToNearestEnemy(units));
+    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        return distanceToNearestEnemy(enemyTeam);
     }
 
     public String getInfo(){

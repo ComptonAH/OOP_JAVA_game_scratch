@@ -9,7 +9,8 @@ public class Sniper extends Unit {
         this.name = name;
         this.attack_range = 9;
         this.movement_points = 10;
-        this.health_points = roll_d8() + 4;
+        this.max_hp = roll_d8() + 4;
+        this.cur_hp = max_hp;
         this.defence = roll_d8();
         this.luck = 2;
         this.initiation = roll_d8() + 6;
@@ -18,12 +19,15 @@ public class Sniper extends Unit {
         coordinates = new Coordinates(x,y);
     }
 
+    private int roll_d8() {
+        return d8;
+    }
     @Override
     public String toString() {
         return "Sniper{" +
                 "projectile_quantity=" + projectile_quantity +
                 ", attack_range=" + attack_range +
-                ", health_points=" + health_points +
+                ", health_points=" + max_hp +
                 ", movement_points=" + movement_points +
                 ", attack=" + attack +
                 ", defence=" + defence +
@@ -32,12 +36,8 @@ public class Sniper extends Unit {
                 '}';
     }
 
-    private int roll_d8() {
-        return d8;
-    }
-    @Override
-    public void step(ArrayList<Unit> units) {
-        System.out.println(distanceToNearestEnemy(units));
+    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        return distanceToNearestEnemy(enemyTeam);
     }
 
     public String getInfo(){

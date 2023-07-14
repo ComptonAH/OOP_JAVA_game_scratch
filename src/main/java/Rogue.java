@@ -6,7 +6,8 @@ public class Rogue extends Unit {
     public Rogue(String name, int x, int y) {
         this.name = name;
         this.movement_points = 16;
-        this.health_points = roll_d10() + 3;
+        this.max_hp = roll_d10() + 3;
+        this.cur_hp = max_hp;
         this.defence = roll_d10();
         this.luck = 3;
         this.initiation = roll_d10() + 6;
@@ -26,7 +27,7 @@ public class Rogue extends Unit {
         return "Rogue{" +
                 "armor=" + armor +
                 ", resistance=" + resistance +
-                ", health_points=" + health_points +
+                ", health_points=" + max_hp +
                 ", movement_points=" + movement_points +
                 ", attack=" + attack +
                 ", defence=" + defence +
@@ -35,9 +36,8 @@ public class Rogue extends Unit {
                 '}';
     }
 
-    @Override
-    public void step(ArrayList<Unit> units) {
-        System.out.println(distanceToNearestEnemy(units));
+    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        return distanceToNearestEnemy(enemyTeam);
     }
 
     @Override

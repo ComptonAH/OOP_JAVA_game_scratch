@@ -7,7 +7,8 @@ public class Spearman extends Unit {
     public Spearman(String name, int x, int y) {
         this.name = name;
         this.movement_points = 12;
-        this.health_points = roll_d10() + 8;
+        this.max_hp = roll_d10() + 8;
+        this.cur_hp = max_hp;
         this.defence = roll_d10() + 2;
         this.luck = 2;
         this.initiation = roll_d10() + 5;
@@ -23,7 +24,7 @@ public class Spearman extends Unit {
         return "Spearman{" +
                 "armor=" + armor +
                 ", resistance=" + resistance +
-                ", health_points=" + health_points +
+                ", health_points=" + max_hp +
                 ", movement_points=" + movement_points +
                 ", attack=" + attack +
                 ", defence=" + defence +
@@ -35,9 +36,8 @@ public class Spearman extends Unit {
     private int roll_d10() {
         return d10;
     }
-    @Override
-    public void step(ArrayList<Unit> units) {
-        System.out.println(distanceToNearestEnemy(units));
+    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        return distanceToNearestEnemy(enemyTeam);
     }
 
     public String getInfo(){

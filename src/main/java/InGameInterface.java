@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
 public interface InGameInterface {
-    void step(ArrayList<Unit> units);
+    Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam);
     String getInfo();
 }

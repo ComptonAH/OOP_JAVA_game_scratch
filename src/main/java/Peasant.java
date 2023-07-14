@@ -7,7 +7,8 @@ public class Peasant extends Unit {
     public Peasant(String name, int x, int y) {
         this.name = name;
         this.movement_points = 9;
-        this.health_points = roll_d10() + 5;
+        this.max_hp = roll_d10() + 5;
+        this.cur_hp = max_hp;
         this.defence = roll_d10();
         this.luck = 1;
         this.initiation = roll_d10() + 3;
@@ -27,7 +28,7 @@ public class Peasant extends Unit {
         return "Peasant{" +
                 "armor=" + armor +
                 ", resistance=" + resistance +
-                ", health_points=" + health_points +
+                ", health_points=" + max_hp +
                 ", movement_points=" + movement_points +
                 ", attack=" + attack +
                 ", defence=" + defence +
@@ -35,9 +36,8 @@ public class Peasant extends Unit {
                 ", luck=" + luck +
                 '}';
     }
-    @Override
-    public void step(ArrayList<Unit> units) {
-        System.out.println(distanceToNearestEnemy(units));
+    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        return distanceToNearestEnemy(enemyTeam);
     }
 
     public String getInfo(){

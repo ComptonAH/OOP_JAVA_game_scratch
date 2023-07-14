@@ -26,6 +26,7 @@ public class Main {
 //
         for (int i = 0; i < 10; i++) {
             int rng = new Random().nextInt(7);
+//            if(i == 0) rng = 3; Строка для проверки работы "step";
             switch (rng) {
                 case 0 -> team_1.add(new Rogue(Instances.Rogue.name(),10,10));
                 case 1 -> team_1.add(new Mage(Instances.Mage.name(),5,7));
@@ -59,7 +60,11 @@ public class Main {
             System.out.println(character.getInfo());
         }
         System.out.println("---------------");
+
         // HW_3
-        team_1.get(1).step(team_2);
+//        team_1.get(1).distanceToNearestEnemy(team_2);
+
+        // HW_4
+        team_1.get(0).step(team_1,team_2);
     }
 }

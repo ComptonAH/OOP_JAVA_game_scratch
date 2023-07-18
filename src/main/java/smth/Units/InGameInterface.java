@@ -1,3 +1,5 @@
+package smth.Units;
+
 import java.util.ArrayList;
 
 public interface InGameInterface {

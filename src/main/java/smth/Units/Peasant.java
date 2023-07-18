@@ -1,19 +1,23 @@
+package smth.Units;
+
 import java.util.ArrayList;
 
-public class Rogue extends Unit {
-    protected int armor, resistance;
+public class Peasant extends Unit {
     private final int d10 = melee_stat_roll();
-    public Rogue(String name, int x, int y) {
+    protected int armor, resistance;
+
+    public Peasant(String name, int x, int y) {
+        this.state = states.get(0);
         this.name = name;
-        this.movement_points = 16;
-        this.max_hp = roll_d10() + 3;
+        this.movement_points = 9;
+        this.max_hp = roll_d10() + 5;
         this.cur_hp = max_hp;
         this.defence = roll_d10();
-        this.luck = 3;
+        this.luck = 1;
         this.initiation = roll_d10() + 6;
-        this.attack = roll_d10() + 6;
-        this.armor = roll_d10() + 1;
-        this.resistance = roll_d10() + 2;
+        this.attack = roll_d10() + 2;
+        this.armor = roll_d10();
+        this.resistance = roll_d10();
         this.attack_range = 1;
         coordinates = new Coordinates(x,y);
     }
@@ -24,7 +28,7 @@ public class Rogue extends Unit {
 
     @Override
     public String toString() {
-        return "Rogue{" +
+        return "smth.Units.Peasant{" +
                 "armor=" + armor +
                 ", resistance=" + resistance +
                 ", health_points=" + max_hp +
@@ -33,15 +37,18 @@ public class Rogue extends Unit {
                 ", defence=" + defence +
                 ", initiation=" + initiation +
                 ", luck=" + luck +
+                ", coordinates=" + "[" + coordinates.X + ", " + coordinates.Y + "]" +
                 '}';
     }
-
     public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
-        return distanceToNearestEnemy(enemyTeam);
+        if (this.state.equals(states.get(1))) {
+            this.state = states.get(0);
+            System.out.printf("smth.Units.Peasant's state has been changed from %s to %s%n",states.get(1),this.state);
+        }
+        return null;
     }
 
-    @Override
-    public String getInfo() {
-        return "Rogue";
+    public String getInfo(){
+        return super.getInfo();
     }
 }

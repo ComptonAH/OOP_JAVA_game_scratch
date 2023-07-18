@@ -1,3 +1,5 @@
+package smth.Units;
+
 import java.util.ArrayList;
 
 public class Crossbowman extends Unit {
@@ -5,6 +7,7 @@ public class Crossbowman extends Unit {
     protected int projectile_quantity;
 
     public Crossbowman(String name, int x, int y) {
+        this.state = states.get(0);
         this.name = name;
         this.attack_range = 12;
         this.movement_points = 8;
@@ -12,7 +15,7 @@ public class Crossbowman extends Unit {
         this.cur_hp = max_hp;
         this.defence = roll_d8() + 2;
         this.luck = 2;
-        this.initiation = roll_d8() + 4;
+        this.initiation = roll_d8() + 7;
         this.projectile_quantity = 5;
         this.attack = roll_d8() + 2;
         coordinates = new Coordinates(x, y);
@@ -20,7 +23,7 @@ public class Crossbowman extends Unit {
 
     @Override
     public String toString() {
-        return "Crossbowman{" +
+        return "smth.Units.Crossbowman{" +
                 "projectile_quantity=" + projectile_quantity +
                 ", attack_range=" + attack_range +
                 ", health_points=" + max_hp +
@@ -29,6 +32,7 @@ public class Crossbowman extends Unit {
                 ", defence=" + defence +
                 ", initiation=" + initiation +
                 ", luck=" + luck +
+                ", coordinates=" + "[" + coordinates.X + ", " + coordinates.Y + "]" +
                 '}';
     }
 
@@ -38,7 +42,7 @@ public class Crossbowman extends Unit {
 
     @Override
     public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
-        cur_hp = checkHP();
+        cur_hp = getHP();
         projectile_quantity = checkProjectiles();
         if (cur_hp <= 0) {
             System.out.println("This character is dead");
@@ -47,44 +51,44 @@ public class Crossbowman extends Unit {
         } else {
             Unit enemy = super.distanceToNearestEnemy(enemyTeam);
             int HP_until_attack = enemy.cur_hp;
-            System.out.printf("You dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy), enemy.name, HP_until_attack, enemy.cur_hp);
-            System.out.println(this.projectile_quantity);
-            if (this.hasPeasant(allyTeam)) {
+            System.out.printf("smth.Units.Crossbowman dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
+            if (!this.hasPeasant(allyTeam)) {
                 this.projectile_quantity -= 1;
-                System.out.println(this.projectile_quantity);
             } else {
-                System.out.println("You have a peasant in your team. He supplied you an arrow");
-                System.out.println(this.projectile_quantity);
+                System.out.println("You have a peasant in your team. He supplied you an arrow.");
             }
-
         }
         return null;
     }
 
 
     public String getInfo() {
-        return "Crossbowman";
-    }
-
-    public int doDamage(Unit enemy) {
-        enemy.cur_hp = enemy.cur_hp - this.attack;
-        return this.attack;
+        return String.format("%s arr: %d ", super.getInfo(), this.projectile_quantity);
     }
 
     private int checkProjectiles() {
         return Math.max(this.projectile_quantity, 0);
     }
 
-    private int checkHP() {
-        return Math.max(this.cur_hp, 0);
-    }
-
     private Boolean hasPeasant(ArrayList<Unit> ally_team) {
         for (Unit unit : ally_team) {
-            if (unit.toString().equals("Peasant")) {
-                return true;
+            if (unit.name.equals("smth.Units.Peasant")) {
+                if (unit.cur_hp > 0) {
+                    if (unit.state.equals(unit.states.get(0))) {
+                        unit.state = states.get(1);
+                        System.out.printf("smth.Units.Peasant's state has been changed from %s to %s%n", states.get(0), unit.state);
+                        return true;
+                    } else {
+                        System.out.println("Your peasant is busy. Projectile quantity -1.");
+                        return false;
+                    }
+                } else {
+                    System.out.println("Your peasant is dead");
+                    return false;
+                }
             }
         }
+        System.out.println("You have no peasant in your team. Projectile quantity -1.");
         return false;
     }
 

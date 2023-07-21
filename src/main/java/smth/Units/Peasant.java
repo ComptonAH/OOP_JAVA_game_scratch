@@ -10,11 +10,11 @@ public class Peasant extends Unit {
         this.state = states.get(0);
         this.name = name;
         this.movement_points = 9;
-        this.max_hp = roll_d10() + 5;
+        this.max_hp = roll_d10() + 8;
         this.cur_hp = max_hp;
         this.defence = roll_d10();
         this.luck = 1;
-        this.initiation = roll_d10() + 6;
+        this.initiation = roll_d10() + 2;
         this.attack = roll_d10() + 2;
         this.armor = roll_d10();
         this.resistance = roll_d10();
@@ -28,7 +28,7 @@ public class Peasant extends Unit {
 
     @Override
     public String toString() {
-        return "smth.Units.Peasant{" +
+        return "Peasant{" +
                 "armor=" + armor +
                 ", resistance=" + resistance +
                 ", health_points=" + max_hp +
@@ -40,12 +40,14 @@ public class Peasant extends Unit {
                 ", coordinates=" + "[" + coordinates.X + ", " + coordinates.Y + "]" +
                 '}';
     }
-    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
-        if (this.state.equals(states.get(1))) {
-            this.state = states.get(0);
-            System.out.printf("smth.Units.Peasant's state has been changed from %s to %s%n",states.get(1),this.state);
+    public void step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        cur_hp = getHP();
+        if (!getState().equals(states.get(2))) {
+            if (this.state.equals(states.get(1))) {
+                this.state = states.get(0);
+                System.out.printf("Peasant's state has been changed from %s to %s%n", states.get(1), this.state);
+            }
         }
-        return null;
     }
 
     public String getInfo(){

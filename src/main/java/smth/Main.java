@@ -11,7 +11,8 @@ public class Main {
     public static ArrayList<Unit> team_1 = new ArrayList<>();
     public static ArrayList<Unit> team_2 = new ArrayList<>();
     public static ArrayList<Unit> turn_order = new ArrayList<>();
-    static Boolean isTeamDie (ArrayList < Unit > team) {
+
+    static Boolean isTeamDie(ArrayList<Unit> team) {
         for (Unit unit : team) {
             if (!unit.state.equals(unit.states.get(2))) return false;
         }
@@ -58,7 +59,6 @@ public class Main {
                 case 4 -> team_2.add(new Peasant(Instances.Peasant.name(), 10, i));
             }
         }
-
         System.out.println("---------------");
         System.out.println("Team 1:");
         System.out.println();
@@ -102,8 +102,7 @@ public class Main {
             if (isTeamDie(team_1)) {
                 System.out.println("Team 2 won");
                 break;
-            }
-            if (isTeamDie(team_2)) {
+            } else if (isTeamDie(team_2)) {
                 System.out.println("Team 1 won");
                 break;
             }

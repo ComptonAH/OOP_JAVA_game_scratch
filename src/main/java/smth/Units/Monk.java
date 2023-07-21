@@ -15,17 +15,17 @@ public class Monk extends Unit {
         this.cur_hp = max_hp;
         this.defence = roll_d6();
         this.luck = 1;
-        this.initiation = roll_d6() + 6;
+        this.initiation = roll_d6() + 8;
         this.attack = roll_d6() + 2;
         this.ability_points = roll_d6() + 4;
-        this.mana_points = roll_d6() + 6;
+        this.mana_points = 16;
         this.spell_quantity = 5;
         coordinates = new Coordinates(x, y);
     }
 
     @Override
     public String toString() {
-        return "smth.Units.Monk{" +
+        return "Monk{" +
                 "mana_points=" + mana_points +
                 ", spell_quantity=" + spell_quantity +
                 ", ability_points=" + ability_points +
@@ -44,9 +44,16 @@ public class Monk extends Unit {
         return d6;
     }
 
-    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
-        healing(allyTeam);
-        return null;
+    public void step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+        cur_hp = getHP();
+        if (!getState().equals(states.get(2))) {
+            if (checkMP() >= 4) {
+                this.mana_points -= 4;
+                healing(allyTeam);
+            } else {
+                moveToAndAttack(enemyTeam);
+            }
+        }
     }
 
     private int healing(ArrayList<Unit> allyteam) {
@@ -61,7 +68,7 @@ public class Monk extends Unit {
                     if (ally.cur_hp > ally.max_hp) {
                         ally.cur_hp = ally.max_hp;
                     }
-                    System.out.printf("smth.Units.Monk healed %s from %d to %d.%n", ally.name, HP_before_healing, ally.cur_hp);
+                    System.out.printf("Monk healed %s from %d to %d.%n", ally.name, HP_before_healing, ally.cur_hp);
                     return ally.cur_hp;
                 }
                 break;
@@ -72,5 +79,8 @@ public class Monk extends Unit {
 
     public String getInfo(){
         return super.getInfo();
+    }
+    private int checkMP() {
+        return this.mana_points;
     }
 }

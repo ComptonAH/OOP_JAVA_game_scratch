@@ -1,5 +1,8 @@
 package smth.Units;
 
+import smth.AnsiColors;
+import smth.Main;
+
 import java.util.*;
 
 public abstract class Unit implements InGameInterface {
@@ -35,7 +38,15 @@ public abstract class Unit implements InGameInterface {
     }
 
     public int getHP() {
-        return Math.max(this.cur_hp, 0);
+        if (this.cur_hp <= 0) {
+            this.state = states.get(2);
+            return this.cur_hp;
+        }
+        return this.cur_hp;
+    }
+
+    public String getState() {
+        return this.state;
     }
 
     public Double[] getCoords() {
@@ -53,9 +64,37 @@ public abstract class Unit implements InGameInterface {
             }
         } else if (enemy.state.equals(states.get(2))) {
             Unit new_enemy = distanceToNearestEnemy(enemyTeam);
-            return doDamage(new_enemy, enemyTeam);
+            doDamage(new_enemy, enemyTeam);
         }
         return this.attack;
+    }
+
+    public void moveToAndAttack(ArrayList<Unit> enemyTeam) {
+        double X = this.coordinates.X;
+        double Y = this.coordinates.Y;
+        Unit enemy = distanceToNearestEnemy(enemyTeam);
+        if (enemy != null) {
+            double dist_to_enemy = Math.sqrt(Math.pow(Math.subtractExact((int) this.coordinates.X, (int) enemy.coordinates.X), 2) +
+                    Math.pow(Math.subtractExact((int) this.coordinates.Y, (int) enemy.coordinates.Y), 2));
+            if (dist_to_enemy > 0 && dist_to_enemy <= 2) {
+                int HP_until_attack = enemy.cur_hp;
+                System.out.printf("%s dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", this.name, doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
+            } else {
+                if (this.getClass().getSimpleName().equals("Rogue") || this.getClass().getSimpleName().equals("Sniper") || this.getClass().getSimpleName().equals("Mage")) {
+                    if (enemy.coordinates.Y - this.coordinates.Y > 0) {
+                        this.coordinates.Y = enemy.coordinates.Y - this.coordinates.Y;
+                    }
+                    this.coordinates.X = enemy.coordinates.X - this.coordinates.X;
+                    System.out.printf("%s changed position from [%s,%s] to [%s,%s].%n", this.name, X, Y, this.coordinates.X, this.coordinates.Y);
+                } else {
+                    if (enemy.coordinates.Y - this.coordinates.Y < 0) {
+                        this.coordinates.Y = this.coordinates.Y - enemy.coordinates.Y;
+                    }
+                    this.coordinates.X = this.coordinates.X - (this.coordinates.X - enemy.coordinates.X + 1);
+                    System.out.printf("%s changed position from [%s,%s] to [%s,%s].%n", this.name, X, Y, this.coordinates.X, this.coordinates.Y);
+                }
+            }
+        }
     }
 
     public Unit distanceToNearestEnemy(ArrayList<Unit> enemyTeam) {
@@ -71,15 +110,13 @@ public abstract class Unit implements InGameInterface {
             }
             dist_list.put(dist, enemyTeam.get(i));
         }
-        ArrayList<Unit> units = new ArrayList<>(dist_list.values());
-        int count = 0;
-        while (units.get(count).cur_hp <= 0) {
-            if (units.get(count).cur_hp > 0) {
-                return units.get(count);
+        ArrayList<Unit> enemies = new ArrayList<>(dist_list.values());
+        for (Unit enemy : enemies) {
+            if (enemy.cur_hp > 0) {
+                return enemy;
             }
-            count++;
         }
-        return units.get(count);
+        return null;
     }
 }
 

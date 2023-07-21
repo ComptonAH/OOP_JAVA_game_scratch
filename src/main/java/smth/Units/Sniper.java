@@ -10,15 +10,15 @@ public class Sniper extends Unit {
     public Sniper(String name, int x, int y) {
         this.state = states.get(0);
         this.name = name;
-        this.attack_range = 9;
+        this.attack_range = 10;
         this.movement_points = 10;
-        this.max_hp = roll_d8() + 4;
+        this.max_hp = roll_d8() + 6;
         this.cur_hp = max_hp;
         this.defence = roll_d8();
         this.luck = 2;
         this.initiation = roll_d8() + 9;
         this.projectile_quantity = 5;
-        this.attack = roll_d8();
+        this.attack = roll_d8() + 2;
         coordinates = new Coordinates(x,y);
     }
 
@@ -27,7 +27,7 @@ public class Sniper extends Unit {
     }
     @Override
     public String toString() {
-        return "smth.Units.Sniper{" +
+        return "Sniper{" +
                 "projectile_quantity=" + projectile_quantity +
                 ", attack_range=" + attack_range +
                 ", health_points=" + max_hp +
@@ -40,24 +40,27 @@ public class Sniper extends Unit {
                 '}';
     }
 
-    public Unit step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
+    public void step(ArrayList<Unit> allyTeam, ArrayList<Unit> enemyTeam) {
         cur_hp = getHP();
-        projectile_quantity = checkProjectiles();
-        if (cur_hp <= 0) {
-            System.out.println("This character is dead");
-        } else if (projectile_quantity <= 0) {
-            System.out.println("This character has no ammo");
-        } else {
-            Unit enemy = super.distanceToNearestEnemy(enemyTeam);
-            int HP_until_attack = enemy.cur_hp;
-            System.out.printf("smth.Units.Sniper dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
-            if (!this.hasPeasant(allyTeam)) {
-                this.projectile_quantity -= 1;
+        if (!getState().equals(states.get(2))) {
+            projectile_quantity = checkProjectiles();
+            if (cur_hp <= 0) {
+                System.out.printf("This %s is dead%n", this.name);
+            } else if (projectile_quantity <= 0) {
+                moveToAndAttack(enemyTeam);
             } else {
-                System.out.println("You have a peasant in your team. He supplied you an ammo.");
+                Unit enemy = super.distanceToNearestEnemy(enemyTeam);
+                if(enemy != null) {
+                    int HP_until_attack = enemy.cur_hp;
+                    System.out.printf("Sniper dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
+                    if (!this.hasPeasant(allyTeam)) {
+                        this.projectile_quantity -= 1;
+                    } else {
+                        System.out.println("You have a peasant in your team. He supplied you an ammo.");
+                    }
+                }
             }
         }
-        return null;
     }
 
     public String getInfo() {
@@ -68,11 +71,11 @@ public class Sniper extends Unit {
     }
     private Boolean hasPeasant(ArrayList<Unit> ally_team) {
         for (Unit unit : ally_team) {
-            if (unit.name.equals("smth.Units.Peasant")) {
+            if (unit.name.equals("Peasant")) {
                 if (unit.cur_hp > 0) {
                     if (unit.state.equals(unit.states.get(0))) {
                         unit.state = states.get(1);
-                        System.out.printf("smth.Units.Peasant's state has been changed from %s to %s%n",states.get(0),unit.state);
+                        System.out.printf("Peasant's state has been changed from %s to %s%n",states.get(0),unit.state);
                         return true;
                     } else {
                         System.out.println("Your peasant is busy. Projectile quantity -1.");

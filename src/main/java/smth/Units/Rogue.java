@@ -14,7 +14,7 @@ public class Rogue extends Unit {
         this.cur_hp = max_hp;
         this.defence = roll_d10();
         this.luck = 3;
-        this.initiation = roll_d10() + 9;
+        this.initiation = roll_d10() + 6;
         this.attack = roll_d10() + 2;
         this.armor = roll_d10() + 1;
         this.resistance = roll_d10() + 2;

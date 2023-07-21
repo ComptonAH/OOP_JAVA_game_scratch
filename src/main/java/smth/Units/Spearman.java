@@ -10,7 +10,7 @@ public class Spearman extends Unit {
         this.state = states.get(0);
         this.name = name;
         this.movement_points = 6;
-        this.max_hp = roll_d10() + 8;
+        this.max_hp = roll_d10() + 7;
         this.cur_hp = max_hp;
         this.defence = roll_d10() + 2;
         this.luck = 2;

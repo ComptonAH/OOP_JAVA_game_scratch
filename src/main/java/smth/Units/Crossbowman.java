@@ -17,7 +17,7 @@ public class Crossbowman extends Unit {
         this.luck = 2;
         this.initiation = roll_d8() + 9;
         this.projectile_quantity = 5;
-        this.attack = roll_d8();
+        this.attack = roll_d8() + 3;
         coordinates = new Coordinates(x, y);
     }
 
@@ -49,12 +49,14 @@ public class Crossbowman extends Unit {
                 moveToAndAttack(enemyTeam);
             } else {
                 Unit enemy = super.distanceToNearestEnemy(enemyTeam);
-                int HP_until_attack = enemy.cur_hp;
-                System.out.printf("Crossbowman dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
-                if (!this.hasPeasant(allyTeam)) {
-                    this.projectile_quantity -= 1;
-                } else {
-                    System.out.println("You have a peasant in your team. He supplied you an arrow.");
+                if (enemy != null) {
+                    int HP_until_attack = enemy.cur_hp;
+                    System.out.printf("Crossbowman dealt %s damage to %s. Enemy's HP until the attack: %s, afterward: %s%n", doDamage(enemy, enemyTeam), enemy.name, HP_until_attack, enemy.cur_hp);
+                    if (!this.hasPeasant(allyTeam)) {
+                        this.projectile_quantity -= 1;
+                    } else {
+                        System.out.println("You have a peasant in your team. He supplied you an arrow.");
+                    }
                 }
             }
         }

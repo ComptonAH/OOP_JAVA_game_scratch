@@ -11,11 +11,11 @@ public class Monk extends Unit {
         this.name = name;
         this.attack_range = 7;
         this.movement_points = 8;
-        this.max_hp = roll_d6() + 8;
+        this.max_hp = roll_d6() + 6;
         this.cur_hp = max_hp;
         this.defence = roll_d6();
         this.luck = 1;
-        this.initiation = roll_d6() + 8;
+        this.initiation = roll_d6() + 9;
         this.attack = roll_d6() + 2;
         this.ability_points = roll_d6() + 4;
         this.mana_points = 16;

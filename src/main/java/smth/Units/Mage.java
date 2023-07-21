@@ -11,7 +11,7 @@ public class Mage extends Unit {
         this.name = name;
         this.attack_range = 8;
         this.movement_points = 10;
-        this.max_hp = roll_d6() + 8;
+        this.max_hp = roll_d6() + 6;
         this.cur_hp = max_hp;
         this.defence = roll_d6();
         this.luck = 1;
